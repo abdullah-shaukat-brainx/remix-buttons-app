@@ -1,0 +1,32 @@
+<button onclick="toggleCurrentPageUrl()">Toggle Current Page URL</button>
+
+<div id="urlDisplay" style="display: none;"></div>
+
+<script>
+var currentPageUrl = window.location.href;
+var urlDisplay = document.getElementById('urlDisplay');
+
+function toggleCurrentPageUrl() {
+  if (urlDisplay.style.display === 'none') {
+    urlDisplay.innerHTML = '<p>' + currentPageUrl + '</p>';
+    urlDisplay.style.display = 'block';
+  } else {
+    urlDisplay.innerHTML = '';
+    urlDisplay.style.display = 'none';
+  }
+}
+</script>
+
+
+{% schema %}
+{
+  "name": "Print URL Button",
+  "target":"section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "autofill": true }
+  
+  ]
+}
+
+{% endschema %}
+

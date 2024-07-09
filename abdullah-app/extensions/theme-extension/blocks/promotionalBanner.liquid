@@ -1,0 +1,72 @@
+<div id="promo-banner" style="
+      text-align: {{ settings.text_align }};
+      padding: 10px;
+      position: relative;
+      width: 100%;
+      z-index: 1000;
+    ">
+    Banner instantiated at 7:18PM on Monday ...
+      <a href="{{ settings.banner_link }}" style="
+        color: {{ settings.text_color }};
+        text-decoration: none;
+        display: inline-block;
+        width: 100%;
+        padding: 10px;
+        text-align: {{ settings.text_align }};
+      ">
+        {{ settings.banner_text }}
+      </a>
+</div>
+
+{% schema %}
+    {
+      "name": "Promotional Banner",
+      "target": "section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "banner_text",
+          "label": "Banner Text",
+          "default": "Welcome to our store! Enjoy 10% off on your first purchase."
+        },
+        {
+          "type": "text",
+          "id": "banner_link",
+          "label": "Banner Link",
+          "default": "/collections/all"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background Color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text Alignment",
+          "default": "center",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    }
+{% endschema %}
