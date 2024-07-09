@@ -1,0 +1,59 @@
+{% comment %} https://your-remix-app.com/apis/buttonSettings {% endcomment %}
+
+{% assign api_url = "http://localhost:3000/abdullah-app/app/routes/apis/buttonSettings" %}
+
+<script>
+  const fetchData = async () => {
+    try {
+      const response = await fetch('{{api_url}}', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      console.log("RESPONSE: ", response)
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching button details:', error);
+      // throw error;
+    }
+  };
+
+  // document.addEventListener('DOMContentLoaded', () => {
+    fetchData().then(data => {
+      console.log('Button details:', data);
+
+      const buttonDisplay = document.getElementById('buttonDisplay');
+      if (data?.button) {
+        const buttonStatus = data.button.enable ? 'Enabled' : 'Disabled';
+        buttonDisplay.innerHTML = `
+          <h2>Button Status</h2>
+          <p>Status: ${buttonStatus}</p>
+        `;
+      } else {
+        buttonDisplay.innerHTML = `<p>No button status available.</p>`;
+      }
+    }).catch(error => {
+      console.error('Failed to fetch button status:', error);
+      const buttonDisplay = document.getElementById('buttonDisplay');
+      buttonDisplay.innerHTML = `<p>Error fetching button status.</p>`;
+    });
+  // });
+</script>
+
+{% schema %}
+{
+  "name": "Button Status",
+  "target":"section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "autofill": true }
+  ]
+}
+{% endschema %}
