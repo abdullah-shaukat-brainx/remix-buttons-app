@@ -1,16 +1,17 @@
 import { json } from "@remix-run/node";
 import { useLoaderData, Form } from "@remix-run/react";
-// import { PrismaClient } from "@prisma/client";
 import { useState } from "react";
+import { Switch, FormControlLabel, Button } from "@mui/material";
 import { authenticate } from "../shopify.server";
-
 import prisma from "../db.server";
 
 export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   const { shop } = session;
-
-  return json({ shop });
+  const button = await prisma.button.findUnique({
+    where: { id: shop },
+  });
+  return json({ button, shop });
 };
 
 export const action = async ({ request }) => {
@@ -30,30 +31,30 @@ export const action = async ({ request }) => {
 };
 
 export default function ButtonPage() {
-  const { shopId } = useLoaderData();
-  const [isEnabled, setIsEnabled] = useState(true);
+  const { button, shop } = useLoaderData();
+  const [isEnabled, setIsEnabled] = useState(button?.enable ?? true);
 
   const handleEnableChange = (e) => {
-    setIsEnabled(e.target.value === "true");
+    setIsEnabled(e.target.checked);
   };
 
   return (
     <div>
       <h1>Share Button</h1>
-      <p>Shop ID: {shopId}</p>
+      <p>Shop ID: {shop}</p>
+
       <Form method="post">
-        <label>
-          Enable/Disable Share Button:
-          <select
-            name="enable"
-            value={isEnabled.toString()}
-            onChange={handleEnableChange}
-          >
-            <option value="true">Enable</option>
-            <option value="false">Disable</option>
-          </select>
-        </label>
-        <button type="submit">Save</button>
+        <Switch
+          checked={isEnabled}
+          onChange={handleEnableChange}
+          name="enable"
+          color="primary"
+          label="Enable/Disable Share Button"
+        />
+        <input type="hidden" name="enable" value={isEnabled.toString()} />
+        <Button type="submit" variant="contained" color="primary">
+          Save
+        </Button>
       </Form>
     </div>
   );
