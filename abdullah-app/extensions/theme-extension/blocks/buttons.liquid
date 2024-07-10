@@ -1,51 +1,54 @@
-{% comment %} https://your-remix-app.com/apis/buttonSettings {% endcomment %}
+{% comment %} Testing with a publicly available API {% endcomment %}
 
-{% assign api_url = "http://localhost:3000/abdullah-app/app/routes/apis/buttonSettings" %}
+{% assign api_url = "https://da69-122-129-85-58.ngrok-free.app/api/buttonsettings" %}
+
+<div id="dataDisplay">
+  <p>Loading data...</p>
+</div>
 
 <script>
   const fetchData = async () => {
     try {
       const response = await fetch('{{api_url}}', {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        
+        // headers:{
+        //   'Content-Type': 'application/json',
+        // }
       });
-
-      console.log("RESPONSE: ", response)
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
+      console.log('RESPONSE: ', response)
       const data = await response.json();
+      console.log("*", data)
       return data;
     } catch (error) {
-      console.error('Error fetching button details:', error);
-      // throw error;
+      console.error('Error fetching data:', error);
     }
   };
 
-  // document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     fetchData().then(data => {
-      console.log('Button details:', data);
+      console.log('Fetched data:', data);
 
-      const buttonDisplay = document.getElementById('buttonDisplay');
-      if (data?.button) {
-        const buttonStatus = data.button.enable ? 'Enabled' : 'Disabled';
-        buttonDisplay.innerHTML = `
-          <h2>Button Status</h2>
-          <p>Status: ${buttonStatus}</p>
-        `;
-      } else {
-        buttonDisplay.innerHTML = `<p>No button status available.</p>`;
-      }
-    }).catch(error => {
-      console.error('Failed to fetch button status:', error);
-      const buttonDisplay = document.getElementById('buttonDisplay');
-      buttonDisplay.innerHTML = `<p>Error fetching button status.</p>`;
+    //   const dataDisplay = document.getElementById('dataDisplay');
+    //   if (data) {
+    //     dataDisplay.innerHTML = `
+    //       <h2>Fetched Data</h2>
+    //       <p><strong>Title:</strong> ${data.title}</p>
+    //       <p><strong>Body:</strong> ${data.body}</p>
+    //     `;
+    //   } else {
+    //     dataDisplay.innerHTML = `<p>No data available.</p>`;
+    //   }
+    // }).catch(error => {
+    //   console.error('Failed to fetch data:', error);
+    //   const dataDisplay = document.getElementById('dataDisplay');
+    //   dataDisplay.innerHTML = `<p>Error fetching data.</p>`;
     });
-  // });
+  });
 </script>
 
 {% schema %}

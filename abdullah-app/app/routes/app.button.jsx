@@ -9,23 +9,21 @@ import prisma from "../db.server";
 export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   const { shop } = session;
-  const shopId = `shopify-${shop}`;
 
-  return json({ shopId });
+  return json({ shop });
 };
 
 export const action = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   const { shop } = session;
-  const shopId = `shopify-${shop}`;
 
   const formData = await request.formData();
   const enable = formData.get("enable") === "true";
 
   await prisma.button.upsert({
-    where: { id: shopId },
+    where: { id: shop },
     update: { enable },
-    create: { id: shopId, enable },
+    create: { id: shop, enable },
   });
 
   return {};
