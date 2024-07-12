@@ -3,7 +3,7 @@
 client_id = "fbf60f6302b3e92e01e42fa7dc123f70"
 name = "abdullah-app"
 handle = "abdullah-app-1"
-application_url = "https://da69-122-129-85-58.ngrok-free.app"
+application_url = "https://50e6-103-157-201-128.ngrok-free.app"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://da69-122-129-85-58.ngrok-free.app/auth/callback",
-  "https://da69-122-129-85-58.ngrok-free.app/auth/shopify/callback",
-  "https://da69-122-129-85-58.ngrok-free.app/api/auth/callback"
+  "https://50e6-103-157-201-128.ngrok-free.app/auth/callback",
+  "https://50e6-103-157-201-128.ngrok-free.app/auth/shopify/callback",
+  "https://50e6-103-157-201-128.ngrok-free.app/api/auth/callback"
 ]
 
 [webhooks]

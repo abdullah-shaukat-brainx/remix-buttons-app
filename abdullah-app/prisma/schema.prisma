@@ -34,4 +34,7 @@ model Session {
 model Button {
   id            String    @id
   enable        Boolean   @default(true)
+  radius        Int       @default(0)
+  variant       String    @default("none")
+  size          String    @default("large")
 }
