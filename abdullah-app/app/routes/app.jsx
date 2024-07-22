@@ -23,9 +23,9 @@ export default function App() {
         <Link to="/app" rel="home">
           Home
         </Link>
-        <Link to="/app/additional">Additional page</Link>
-        <Link to="/app/button">Share Button</Link>
+        {/* <Link to="/app/additional">Additional page</Link> */}
         <Link to="/app/button-settings">Button Settings</Link>
+        <Link to="/app/platform-selection">Choose Platforms</Link>
         <Link to="/app/create-platform">Add a Social Media Platform</Link>
       </NavMenu>
       <Outlet />
