@@ -1,6 +1,6 @@
 {% comment %} Testing with a publicly available API {% endcomment %}
 
-{% assign api_url = "https://7d13-122-129-85-58.ngrok-free.app/api/export-button-test?shop=abdullah-brainx.myshopify.com" %}
+{% assign api_url = "https://3a59-122-129-85-58.ngrok-free.app/api/export-button-test?shop=abdullah-brainx.myshopify.com" %}
 
 <div id="dataDisplay">
   <p>Loading data...</p>
@@ -31,16 +31,16 @@
     const dataDisplay = document.getElementById('dataDisplay');
     dataDisplay.innerHTML = ''; // Clear loading message
 
-    if (data && Array.isArray(data.platforms)) {
+    if (data.button.enable && Array.isArray(data.platforms)) {
       const buttonGroup = document.createElement('div');
       buttonGroup.style.display = 'flex';
       buttonGroup.style.flexWrap = 'wrap';
+      // buttonGroup.style.flexDirection = 'column';
 
-      // Apply margin only if variant is "none"
       if (data.button.variant === 'none') {
-        buttonGroup.style.gap = '10px'; // Adjust gap between buttons
+        buttonGroup.style.gap = '25px'; // Adjust gap between buttons
       } else {
-        buttonGroup.style.gap = '0'; // No gap if variant is not "none"
+        buttonGroup.style.gap = '0'; // No gap if variant is not none (segmented)
       }
 
       data.platforms.forEach(platform => {
@@ -50,7 +50,7 @@
         // Common button styles
         button.style.border = 'none';
         button.style.borderRadius = '4px';
-        // button.style.backgroundColor = '#007bff'; // Primary background color
+        button.style.backgroundColor = '#ffffff'; // Primary background color
         // button.style.color = '#fff'; // Text color
         button.style.cursor = 'pointer';
         button.style.display = 'flex';
@@ -65,7 +65,7 @@
         };
 
         button.onmouseout = () => {
-          button.style.backgroundColor = '#007bff'; // Original background color
+          button.style.backgroundColor = '#ffffff'; // Original background color
           button.style.transform = 'scale(1)'; // Return to original size
         };
 
@@ -73,37 +73,26 @@
         icon.innerHTML = platform.iconSvg;
         button.appendChild(icon);
         
-        // Set button size based on `data.button.size`
         switch (data.button.size) {
           case 'large':
             button.style.fontSize = '1em'; // Larger text
             button.style.padding = '4px 8px'; // Larger padding
-            // icon.style.width = '12px'; // Larger icon size
-            // icon.style.height = '12px'; // Larger icon size
             break;
           case 'medium':
             button.style.fontSize = '0.8em'; // Medium text
             button.style.padding = '3px 6px'; // Medium padding
-            // icon.style.width = '10px'; 
-            // icon.style.height = '10px';
             break;
           case 'slim':
             button.style.fontSize = '0.6em'; // Slim text
             button.style.padding = '2px 4px'; // Slim padding
-            // icon.style.width = '8px'; 
-            // icon.style.height = '8px';
             break;
           case 'micro':
             button.style.fontSize = '0.5em'; // Micro text
             button.style.padding = '1px 1px'; // Micro padding
-            // icon.style.width = '6px'; 
-            // icon.style.height = '6px';
             break;
           default:
             button.style.fontSize = '0.5em'; // Default text size
             button.style.padding = '1px 1px'; // Default padding
-            // icon.style.width = '6px';
-            // icon.style.height = '6px';
         }
         if (data.button.showName === true) {
           const buttonText = document.createTextNode(platform.name);
