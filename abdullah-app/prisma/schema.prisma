@@ -34,4 +34,13 @@ model Session {
 model Button {
   id            String    @id
   enable        Boolean   @default(true)
+  showName        Boolean   @default(false)
+  variant       String    @default("none")
+  size          String    @default("large")
+}
+
+model Platform {
+  name          String    @id
+  iconSvg       String
+  baseUrl       String
 }

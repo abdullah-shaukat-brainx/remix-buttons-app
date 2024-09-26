@@ -1,0 +1,126 @@
+{% comment %} Testing with a publicly available API {% endcomment %}
+
+{% assign api_url = "https://3a59-122-129-85-58.ngrok-free.app/api/export-button-test?shop=abdullah-brainx.myshopify.com" %}
+
+<div id="dataDisplay">
+  <p>Loading data...</p>
+</div>
+
+<script>
+  const fetchData = async () => {
+    try {
+      const response = await fetch('{{ api_url }}', {
+        method: 'GET',
+        headers: {
+          'ngrok-skip-browser-warning': 'true'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json(); // Convert the response to JSON
+      return data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const renderButtons = (data) => {
+    const dataDisplay = document.getElementById('dataDisplay');
+    dataDisplay.innerHTML = ''; // Clear loading message
+
+    if (data.button.enable && Array.isArray(data.platforms)) {
+      const buttonGroup = document.createElement('div');
+      buttonGroup.style.display = 'flex';
+      buttonGroup.style.flexWrap = 'wrap';
+      // buttonGroup.style.flexDirection = 'column';
+
+      if (data.button.variant === 'none') {
+        buttonGroup.style.gap = '25px'; // Adjust gap between buttons
+      } else {
+        buttonGroup.style.gap = '0'; // No gap if variant is not none (segmented)
+      }
+
+      data.platforms.forEach(platform => {
+        const button = document.createElement('button');
+        
+        
+        // Common button styles
+        button.style.border = 'none';
+        button.style.borderRadius = '4px';
+        button.style.backgroundColor = '#ffffff'; // Primary background color
+        // button.style.color = '#fff'; // Text color
+        button.style.cursor = 'pointer';
+        button.style.display = 'flex';
+        button.style.alignItems = 'center';
+        button.style.justifyContent = 'center'; // Center content horizontally
+        button.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)'; // Subtle shadow
+        button.style.transition = 'background-color 0.3s ease, transform 0.2s ease'; // Transition effects
+        
+        button.onmouseover = () => {
+          button.style.backgroundColor = '#0056b3'; // Darker background on hover
+          button.style.transform = 'scale(1.05)'; // Slightly enlarge button on hover
+        };
+
+        button.onmouseout = () => {
+          button.style.backgroundColor = '#ffffff'; // Original background color
+          button.style.transform = 'scale(1)'; // Return to original size
+        };
+
+        const icon = document.createElement('i');
+        icon.innerHTML = platform.iconSvg;
+        button.appendChild(icon);
+        
+        switch (data.button.size) {
+          case 'large':
+            button.style.fontSize = '1em'; // Larger text
+            button.style.padding = '4px 8px'; // Larger padding
+            break;
+          case 'medium':
+            button.style.fontSize = '0.8em'; // Medium text
+            button.style.padding = '3px 6px'; // Medium padding
+            break;
+          case 'slim':
+            button.style.fontSize = '0.6em'; // Slim text
+            button.style.padding = '2px 4px'; // Slim padding
+            break;
+          case 'micro':
+            button.style.fontSize = '0.5em'; // Micro text
+            button.style.padding = '1px 1px'; // Micro padding
+            break;
+          default:
+            button.style.fontSize = '0.5em'; // Default text size
+            button.style.padding = '1px 1px'; // Default padding
+        }
+        if (data.button.showName === true) {
+          const buttonText = document.createTextNode(platform.name);
+          button.appendChild(buttonText);
+        }
+
+        buttonGroup.appendChild(button);
+      });
+
+      dataDisplay.appendChild(buttonGroup);
+    } else {
+      dataDisplay.innerHTML = '<p>No data available</p>';
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchData().then(data => {
+      renderButtons(data);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Button Status",
+  "target": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "autofill": true }
+  ]
+}
+{% endschema %}
